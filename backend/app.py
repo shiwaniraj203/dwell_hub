@@ -15,7 +15,8 @@ app.config.from_object(Config)
 CORS(app, origins=[
     "http://localhost:4200",
     "http://localhost:80",
-    "https://*.railway.app"  # Allows all Railway subdomains
+    "https://*.railway.app",
+    "https://frontend-production-08f8.up.railway.app"
 ])
 
 db.init_app(app)
