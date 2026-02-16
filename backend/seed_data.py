@@ -3,8 +3,14 @@ from werkzeug.security import generate_password_hash
 
 
 def seed_database():
-    db.drop_all()
-    db.create_all()
+    # Don't drop tables in production!
+    # db.drop_all()  # COMMENTED OUT
+    db.create_all()  # Only create if they don't exist
+
+    # Check if data already exists
+    if User.query.count() > 0:
+        print("Database already has data. Skipping seed.")
+        return
 
     admin = User(
         name='Admin User',

@@ -202,16 +202,21 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     
     with app.app_context():
-        # Create all tables
-        db.create_all()
-        
-        # Only seed database if it's empty (first deployment)
-        if User.query.count() == 0:
-            print("Database is empty. Seeding data...")
-            from seed_data import seed_database
-            seed_database()
-        else:
-            print("Database already has data. Skipping seed.")
+        try:
+            # Create all tables
+            db.create_all()
+            
+            # Only seed database if it's empty (first deployment)
+            if User.query.count() == 0:
+                print("Database is empty. Seeding data...")
+                from seed_data import seed_database
+                seed_database()
+            else:
+                print("Database already has data. Skipping seed.")
+        except Exception as e:
+            print(f"Error during database setup: {e}")
+            # Continue anyway - don't crash the app
     
     # Run the app (debug=False for production)
+    print(f"Starting Flask app on port {port}...")
     app.run(host='0.0.0.0', port=port, debug=False)
