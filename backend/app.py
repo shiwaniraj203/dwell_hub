@@ -44,6 +44,21 @@ def admin_required(f):
         return f(current_user, *args, **kwargs)
     return decorated
 
+@app.route('/', methods=['GET'])
+def root():
+    return jsonify({
+        'message': 'DwellHub API is running',
+        'version': '1.0.0',
+        'status': 'active',
+        'endpoints': {
+            'health': '/api/health',
+            'apartments': '/api/apartments',
+            'register': '/api/register',
+            'login': '/api/login',
+            'bookings': '/api/bookings'
+        }
+    }), 200
+
 @app.route('/api/health', methods=['GET'])
 def health():
     return jsonify({'status': 'healthy', 'message': 'Backend is running'}), 200
